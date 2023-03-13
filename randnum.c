@@ -25,9 +25,11 @@ static int get_random_fd()
 	static int	fd = -2;
 
 	if (fd == -2) {
-		fd = open("/dev/urandom", O_RDONLY);
-		if (fd == -1)
-			fd = open("/dev/random", O_RDONLY | O_NONBLOCK);
+		fd = open("/dev/random", O_RDONLY);
+		if (fd == -1){
+			fd = open("/dev/urandom", O_RDONLY | O_NONBLOCK);
+			fprintf(stderr, "using /dev/urandom instead of /dev/random");
+		}
 	}
 	return fd;
 }
